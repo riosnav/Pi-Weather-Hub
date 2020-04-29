@@ -75,6 +75,15 @@ RADAR_ID = "ml"
 ```
 You can find more information about them in [AEMET OpenData documentation](https://opendata.aemet.es/dist/index.html).
 
+Finally, if your screen has a bigger resolution than 1024x600, the GUI will scalate very poorly, so I would recommend disabling full-screen. To do that, replace this line of `interface.py`:
+```
+        self.showFullScreen()
+```
+with:
+```
+        self.show()
+```
+
 ### Measurements functionality (optional)
 Paste your `credentials.json` files inside `pi_weather_assistant/measurements_workers/measurements_resources`
 
