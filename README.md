@@ -42,6 +42,7 @@ The Sheets module expects a spreadsheet with the following format:
 | :---: | :---: | :---: | :---: |
 | 4/29/2020 12:16:28 | 22.6 | 40.5 | 101666.34 |
 | 4/29/2020 12:01:27 | 22.5 | 41.7 | 101668.81 |
+| ... | ... | ... | ... |
 
 In order to use Google's API to fetch data from it, first you will need to enable the API in your Google account and download a `credentials.json` file. To do so, follow [these steps](https://developers.google.com/sheets/api/quickstart/python#step_1_turn_on_the).
 
