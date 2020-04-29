@@ -5,7 +5,6 @@ Adafruit_Blinka==4.6.0
 matplotlib==3.2.1
 httplib2==0.17.3
 requests==2.23.0
-board==1.0
 google_api_python_client==1.8.2
 protobuf==3.11.3
 PyQt5==5.14.2
