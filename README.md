@@ -56,7 +56,7 @@ Carefully follow [Adafruit's tutorial](https://learn.adafruit.com/adafruit-sht31
 ## Installation
 Clone the repository with git (or click the *Download ZIP* button on this page and unpack it):
 ```
-git clone git://github.com/frios94/pi_weather_hub.git
+git clone https://github.com/frios94/Pi-Weather-Hub.git
 ```
 In you want a forecast only installation, edit the following line on `main.py`:
 ```
