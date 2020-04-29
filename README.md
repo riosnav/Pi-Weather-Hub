@@ -58,13 +58,13 @@ Clone the repository with git (or click the *Download ZIP* button on this page a
 ```
 git clone https://github.com/frios94/Pi-Weather-Hub.git
 ```
-In you want a forecast only installation, edit the following line on `main.py`:
+In you want a forecast only installation, edit the following line on [`main.py`](pi_weather_hub/main.py):
 ```
 MEASUREMENTS_INTEGRATION_ACTIVATED = True
 ```
 Changing its value to `False`. Otherwise leave it as is.
 ### Forecast functionality (required)
-Create a Python file inside `pi_weather_assistant/forecast_worker` named `_aemet_api_key.py`. Open it, add this line with the appropriate value and save it:
+Create a Python file inside [`pi_weather_hub/forecast_worker`](pi_weather_hub/forecast_worker) named `_aemet_api_key.py`. Open it, add this line with the appropriate value and save it:
 ```
 AEMET_API_KEY = "YOUR_API_KEY_GOES_HERE"
 ```
@@ -85,9 +85,9 @@ with:
 ```
 
 ### Measurements functionality (optional)
-Paste your `credentials.json` files inside `pi_weather_assistant/measurements_workers/measurements_resources`
+Create a directory called `measurements_resources` in [`pi_weather_hub/measurements_workers`](pi_weather_hub/measurements_workers) and paste your `credentials.json` files inside.
 
-Next, create a Python file inside `pi_weather_assistant/measurements_workers` named `_spreadsheet_id.py`. Open it, add these lines with the appropriate values and save it:
+Next, create a Python file inside [`pi_weather_hub/measurements_workers`](pi_weather_hub/measurements_workers) named `_spreadsheet_id.py`. Open it, add these lines with the appropriate values and save it:
 ```
 SPREADSHEET_ID = "YOUR_GOOGLE_SPREADSHEET_ID_GOES_HERE"
 RANGE_NAME = "EXAMPLE!A2:D"
@@ -105,7 +105,7 @@ This is a quite specific and personal project and I don't think there are many p
 
 Nevertheless, pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 ### About the GUI
-The original QT5 .ui file and resources are included at `pi_weather_assistant/gui/gui_resources`, so it should be relatively easy to adapt the GUI to suit your needs. Just make sure to use a compatible version of the QT5 tools for the current version of Raspbian and don't forget to generate the file `interface_rc.py` if you change the images, using:
+The original QT5 .ui file and resources are included at `pi_weather_assistant/gui/gui_resources`, so it should be relatively easy to adapt the GUI to suit your needs. Just make sure to use a compatible version of the QT5 tools for the current version of Raspbian and don't forget to generate the file [`interface_rc.py`](pi_weather_hub/gui/gui_resources/interface_rc.py) if you change the images, using:
 ```
 pyrcc5 interface.qrc -o interface_rc.py
 ```
@@ -116,4 +116,4 @@ The numbered icons which can be found inside `pi_weather_assistant/gui/gui_resou
 ## License
 Pi Weather Hub is released under the [GNU LGPLv3](https://choosealicense.com/licenses/lgpl-3.0/) or (at your option) any later version.
 
-This software includes source code derived from Google LLC's original work [`quickstart.py`](https://github.com/gsuitedevs/python-samples/blob/master/sheets/quickstart/quickstart.py) (`google_sheets_api_request.py`). As such, this file remains licensed under Apache License, Version 2.0.
+This software includes source code derived from Google LLC's original work [`quickstart.py`](https://github.com/gsuitedevs/python-samples/blob/master/sheets/quickstart/quickstart.py) ([`google_sheets_api_request.py`](pi_weather_hub/measurements_workers/measurements_modules/google_sheets_api_request.py)). As such, this file remains licensed under Apache License, Version 2.0.
