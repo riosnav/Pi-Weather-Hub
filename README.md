@@ -105,13 +105,13 @@ This is a quite specific and personal project and I don't think there are many p
 
 Nevertheless, pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 ### About the GUI
-The original QT5 .ui file and resources are included at `pi_weather_assistant/gui/gui_resources`, so it should be relatively easy to adapt the GUI to suit your needs. Just make sure to use a compatible version of the QT5 tools for the current version of Raspbian and don't forget to generate the file [`interface_rc.py`](pi_weather_hub/gui/gui_resources/interface_rc.py) if you change the images, using:
+The original QT5 .ui file and resources are included at [`pi_weather_hub/gui/gui_resources`](pi_weather_hub/gui/gui_resources), so it should be relatively easy to adapt the GUI to suit your needs. Just make sure to use a compatible version of the QT5 tools for the current version of Raspbian and don't forget to generate the file [`interface_rc.py`](pi_weather_hub/gui/gui_resources/interface_rc.py) if you change the images, using:
 ```
 pyrcc5 interface.qrc -o interface_rc.py
 ```
 
 ## Credits
-The numbered icons which can be found inside `pi_weather_assistant/gui/gui_resources/images` have been made using Alexey Onufriev's '[Free Weather Icons](https://dribbble.com/shots/3761552-Free-Weather-Icons)' as the base.
+The numbered icons which can be found inside [`pi_weather_hub/gui/gui_resources/images`](pi_weather_hub/gui/gui_resources/images) have been made using Alexey Onufriev's '[Free Weather Icons](https://dribbble.com/shots/3761552-Free-Weather-Icons)' as the base.
 
 ## License
 Pi Weather Hub is released under the [GNU LGPLv3](https://choosealicense.com/licenses/lgpl-3.0/) or (at your option) any later version.
