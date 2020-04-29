@@ -7,3 +7,4 @@ token.pickle
 local_measurements.csv
 pi_weather_hub/shared_resources/_national_radar/*.gif
 pi_weather_hub/shared_resources/_regional_radar/*.gif
+console_output.log
