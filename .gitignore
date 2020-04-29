@@ -1,4 +1,5 @@
 **/__pycache__
+.vscode
 _aemet_api_key.py
 _spreadsheet_id.py
 credentials.json
