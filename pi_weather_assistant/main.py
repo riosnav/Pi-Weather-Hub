@@ -51,6 +51,7 @@ if __name__ == '__main__':
     # Set main.py directory as current working directory
     os.chdir(os.path.dirname((os.path.abspath(sys.argv[0]))))
 
+    # Create the directories where radar images are stored, if they doesn't exist already
     try:
         os.makedirs("./shared_resources/_national_radar")
         os.makedirs("./shared_resources/_regional_radar")
