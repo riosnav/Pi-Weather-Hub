@@ -1,0 +1,8 @@
+**/__pycache__
+_aemet_api_key.py
+_spreadsheet_id.py
+credentials.json
+token.pickle
+local_measurements.csv
+pi_weather_assistant/shared_resources/_national_radar/*.gif
+pi_weather_assistant/shared_resources/_regional_radar/*.gif
