@@ -44,6 +44,7 @@ class _SensorShared():
 
         self.sensor_lock = manager.Lock()
         self.sensor_ready = manager.Event()
+        self.fast_sensor_ready = manager.Event()
 
 
 class _SheetShared():

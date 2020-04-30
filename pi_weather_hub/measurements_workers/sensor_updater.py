@@ -29,7 +29,8 @@ import numpy as np
 
 # MODULE_VARIABLES
 CSV_PATH = "./measurements_workers/measurements_resources/local_measurements.csv"
-UPDATE_PERIOD = 10*60
+FAST_UPDATE_PERIOD = 10
+PLOT_UPDATE_PERIOD = 15*60
 
 
 class SensorUpdater():
@@ -49,7 +50,10 @@ class SensorUpdater():
         and humidity values in last 24 hours).
     sensor_ready : multiprocessing.Manager().Event()
         Event used to signal that data that has been fetched
-        successfully.
+        successfully for plot representation.
+    fast_sensor_ready : multiprocessing.Manager().Event()
+        Event used to signal that data that has been fetched
+        successfully for temperature and humidity labels fast update.
     sensor_lock : multiprocessing.Manager().Lock()
         Lock used to prevent coordination issues.
 
@@ -72,24 +76,35 @@ class SensorUpdater():
         self.sensor_variables = sensor_shared.sensor_variables
         self.sensor_stadistics = sensor_shared.sensor_stadistics
         self.sensor_ready = sensor_shared.sensor_ready
+        self.fast_sensor_ready = sensor_shared.fast_sensor_ready
         self.sensor_lock = sensor_shared.sensor_lock
 
     def run(self):
         """Fetch and update data periodically."""
+        last_plot_update = -1000
         while True:
-            previous_sensor_data = self._read_csv(CSV_PATH)
-            current_reading = self._read_sensor()
-            sensor_data = self._combine_and_filter_data(current_reading, previous_sensor_data)
-            self._save_data_to_csv(CSV_PATH, sensor_data)
+            if time.time() > last_plot_update + PLOT_UPDATE_PERIOD:
+                last_plot_update = time.time()
+                previous_sensor_data = self._read_csv(CSV_PATH)
+                current_reading = self._read_sensor()
+                sensor_data = self._combine_and_filter_data(current_reading, previous_sensor_data)
+                self._save_data_to_csv(CSV_PATH, sensor_data)
 
-            np_sensor_data = np.array(sensor_data).T
-            with self.sensor_lock:
-                self.sensor_variables['Timestamp'] = np_sensor_data[0, :].tolist()
-                self.sensor_variables['Temperature'] = np_sensor_data[1, :].astype(float).tolist()
-                self.sensor_variables['Humidity'] = np_sensor_data[2, :].astype(float).tolist()
-                self._process_stadistics()
-                self.sensor_ready.set()
-            time.sleep(UPDATE_PERIOD)
+                np_sensor_data = np.array(sensor_data).T
+                with self.sensor_lock:
+                    self.sensor_variables['Timestamp'] = np_sensor_data[0, :].tolist()
+                    self.sensor_variables['Temperature'] = np_sensor_data[1,
+                                                                          :].astype(float).tolist()
+                    self.sensor_variables['Humidity'] = np_sensor_data[2, :].astype(float).tolist()
+                    self._process_stadistics()
+                    self.sensor_ready.set()
+            else:
+                sensor_reading = self._read_sensor()
+                with self.sensor_lock:
+                    self.sensor_stadistics['Current temperature'] = sensor_reading[1]
+                    self.sensor_stadistics['Current humidity'] = sensor_reading[2]
+                    self.fast_sensor_ready.set()
+            time.sleep(FAST_UPDATE_PERIOD)
 
     def _read_csv(self, path):
         try:

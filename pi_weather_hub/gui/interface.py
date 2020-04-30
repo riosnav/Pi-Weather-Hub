@@ -44,6 +44,7 @@ class Ui(QtWidgets.QMainWindow):
     """
     The Ui object is this app's PyQt5 main GUI class.
     """
+
     def __init__(self, aemet_shared, sensor_shared, sheet_shared):
         """
         Parameters
@@ -94,6 +95,8 @@ class Ui(QtWidgets.QMainWindow):
         self.sensor_shared = sensor_shared
         self.plots_updater = threading.Thread(target=self.plots_update_handler, args=())
         self.plots_updater.start()
+        self.fast_sensor_updater = threading.Thread(target=self.fast_sensor_label_updater, args=())
+        self.fast_sensor_updater.start()
 
         self.showFullScreen()
 
@@ -104,6 +107,7 @@ class Ui(QtWidgets.QMainWindow):
         self.aemet_shared.forecast_ready.set()
         self.aemet_shared.radar_ready.set()
         self.sensor_shared.sensor_ready.set()
+        self.sensor_shared.fast_sensor_ready.set()
         self.sheet_shared.sheet_ready.set()
 
         event.accept()
@@ -192,7 +196,7 @@ class Ui(QtWidgets.QMainWindow):
         while self.running:
             with self.sheet_shared.sheet_lock:
                 with self.sensor_shared.sensor_lock:
-                    self._update_measurements_labels()
+                    self._update_measurements_labels("all")
 
                     self.temperature_graph = _plots_configuration.setup_temperature_plot(
                         self.temperature_graph,
@@ -219,36 +223,46 @@ class Ui(QtWidgets.QMainWindow):
                     self.sheet_shared.sheet_ready.clear()
             self.sheet_shared.sheet_ready.wait()
 
-    def _update_measurements_labels(self):
-        self.exterior_temp.setText(
-            ("%0.1f" % self.sheet_shared.sheet_stadistics['Current temperature']) + " °C")
-        self.exterior_humidity.setText(
-            ("%0.1f" % self.sheet_shared.sheet_stadistics['Current humidity']) + "%")
-        self.pressure.setText(
-            ("%0.2f" % self.sheet_shared.sheet_stadistics['Current pressure']) + " hPa")
+    def fast_sensor_label_updater(self):
+        self.sensor_shared.fast_sensor_ready.wait()
+        self.sensor_shared.fast_sensor_ready.clear()
+        while self.running:
+            with self.sensor_shared.sensor_lock:
+                self._update_measurements_labels("fast")
+                self.sensor_shared.fast_sensor_ready.clear()
+            self.sensor_shared.fast_sensor_ready.wait()
+
+    def _update_measurements_labels(self, mode):
+        if mode == "all":
+            self.exterior_temp.setText(
+                ("%0.1f" % self.sheet_shared.sheet_stadistics['Current temperature']) + " °C")
+            self.exterior_humidity.setText(
+                ("%0.1f" % self.sheet_shared.sheet_stadistics['Current humidity']) + "%")
+            self.pressure.setText(
+                ("%0.2f" % self.sheet_shared.sheet_stadistics['Current pressure']) + " hPa")
+
+            self.exterior_max_temp.setText(
+                ("%0.1f" % self.sheet_shared.sheet_stadistics['Max temperature']) + " °C")
+            self.exterior_min_temp.setText(
+                ("%0.1f" % self.sheet_shared.sheet_stadistics['Min temperature']) + " °C")
+            self.exterior_max_hum.setText((
+                "%0.1f" % self.sheet_shared.sheet_stadistics['Max humidity']) + "%")
+            self.exterior_min_hum.setText(
+                ("%0.1f" % self.sheet_shared.sheet_stadistics['Min humidity']) + "%")
+
+            self.interior_max_temp.setText(
+                ("%0.1f" % self.sensor_shared.sensor_stadistics['Max temperature']) + " °C")
+            self.interior_min_temp.setText(
+                ("%0.1f" % self.sensor_shared.sensor_stadistics['Min temperature']) + " °C")
+            self.interior_max_hum.setText((
+                "%0.1f" % self.sensor_shared.sensor_stadistics['Max humidity']) + "%")
+            self.interior_min_hum.setText(
+                ("%0.1f" % self.sensor_shared.sensor_stadistics['Min humidity']) + "%")
 
         self.interior_temp.setText(
             ("%0.1f" % self.sensor_shared.sensor_stadistics['Current temperature']) + " °C")
         self.interior_humidity.setText(
             ("%0.1f" % self.sensor_shared.sensor_stadistics['Current humidity']) + "%")
-
-        self.exterior_max_temp.setText(
-            ("%0.1f" % self.sheet_shared.sheet_stadistics['Max temperature']) + " °C")
-        self.exterior_min_temp.setText(
-            ("%0.1f" % self.sheet_shared.sheet_stadistics['Min temperature']) + " °C")
-        self.exterior_max_hum.setText((
-            "%0.1f" % self.sheet_shared.sheet_stadistics['Max humidity']) + "%")
-        self.exterior_min_hum.setText(
-            ("%0.1f" % self.sheet_shared.sheet_stadistics['Min humidity']) + "%")
-
-        self.interior_max_temp.setText(
-            ("%0.1f" % self.sensor_shared.sensor_stadistics['Max temperature']) + " °C")
-        self.interior_min_temp.setText(
-            ("%0.1f" % self.sensor_shared.sensor_stadistics['Min temperature']) + " °C")
-        self.interior_max_hum.setText((
-            "%0.1f" % self.sensor_shared.sensor_stadistics['Max humidity']) + "%")
-        self.interior_min_hum.setText(
-            ("%0.1f" % self.sensor_shared.sensor_stadistics['Min humidity']) + "%")
 
     def hidden_exit_counter(self, int):
         # hiddent exit method
@@ -259,7 +273,7 @@ class Ui(QtWidgets.QMainWindow):
             else:
                 self.forecast_times_clicked = 0
             self.exit_counter_initial_time = exit_counter_current_time
-            
+
             if self.forecast_times_clicked > 4:
                 self.close()
 
