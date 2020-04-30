@@ -95,10 +95,11 @@ RANGE_NAME = "EXAMPLE!A2:D"
 The first time you run this program, it will open a tab in your web browser so you can log in into your Google account and authorize access to the API.
 
 ## Usage
-
+To run this app execute the [`main.py`](pi_weather_hub/main.py) script using Python3:
 ```
 python3 main.py
 ```
+To close it quickly tap the Forecast tab 5 times.
 
 ## Contributing
 This is a quite specific and personal project and I don't think there are many people out there in need of this app as is, but I'm distributing it in the hope that it will be useful to someone.
