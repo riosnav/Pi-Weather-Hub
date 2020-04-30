@@ -20,6 +20,7 @@
 import datetime
 import os
 import threading
+import time
 
 # pip
 import matplotlib as mpl
@@ -71,6 +72,10 @@ class Ui(QtWidgets.QMainWindow):
         self.tabWidget.currentChanged.connect(self.reset_hourly_forecast)
         self.b_animation.clicked.connect(self.on_click_radar_animation)
         self.b_current.clicked.connect(self.on_click_radar_current)
+        # hiddent exit method
+        self.forecast_times_clicked = 0
+        self.exit_counter_initial_time = time.time()
+        self.tabWidget.tabBarClicked[int].connect(self.hidden_exit_counter)
 
         # clock.
         self.clock_timer = QtCore.QTimer()
@@ -244,6 +249,19 @@ class Ui(QtWidgets.QMainWindow):
             "%0.1f" % self.sensor_shared.sensor_stadistics['Max humidity']) + "%")
         self.interior_min_hum.setText(
             ("%0.1f" % self.sensor_shared.sensor_stadistics['Min humidity']) + "%")
+
+    def hidden_exit_counter(self, int):
+        # hiddent exit method
+        if int == 0:
+            exit_counter_current_time = time.time()
+            if exit_counter_current_time < self.exit_counter_initial_time + 2:
+                self.forecast_times_clicked = self.forecast_times_clicked + 1
+            else:
+                self.forecast_times_clicked = 0
+            self.exit_counter_initial_time = exit_counter_current_time
+            
+            if self.forecast_times_clicked > 4:
+                self.close()
 
     @QtCore.pyqtSlot()
     def activate_clock(self):
