@@ -23,6 +23,7 @@ import sys
 
 # pip installed
 from httplib2 import ServerNotFoundError
+from googleapiclient.errors import HttpError
 import numpy as np
 
 # app modules
@@ -88,7 +89,7 @@ class SheetUpdater():
                     values = google_sheets_api_request(SPREADSHEET_ID, RANGE_NAME)
                     self._store_values(values)
                     self._process_stadistics()
-                except ServerNotFoundError as e:
+                except (ServerNotFoundError, HttpError) as e:
                     print(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S - "),
                           end='', flush=True)
                     print(e, file=sys.stderr, flush=True)
