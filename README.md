@@ -17,7 +17,7 @@ This app is divided into three different tabs:
   * **Interior:** An [Adafruit Sensirion SHT31-D](https://www.adafruit.com/product/2857) sensor attached to the Raspberry Pi.
   * **Exterior:** A Google spreadsheet where data is posted periodically by a weather station I made some time ago.
 
-As the measurements functions are probably not especially useful to most people, they can easily be disabled (see [Installation](#Installation)).
+As the measurements functions are probably not especially useful to most people, they can be easily disabled (see [Installation](#Installation)).
 
 ## Prerequisites
 ### Forecast functionality (required)
