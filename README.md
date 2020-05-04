@@ -58,7 +58,7 @@ Clone the repository with git (or click the *Download ZIP* button on this page a
 ```
 git clone https://github.com/frios94/Pi-Weather-Hub.git
 ```
-In you want a forecast only installation, edit the following line on [`main.py`](pi_weather_hub/main.py):
+If you want a forecast only installation, edit the following line on [`main.py`](pi_weather_hub/main.py):
 ```
 MEASUREMENTS_INTEGRATION_ACTIVATED = True
 ```
