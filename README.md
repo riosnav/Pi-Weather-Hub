@@ -5,7 +5,7 @@ Pi Weather Hub is a Python GUI Application made to display weather data from Spa
 This app is designed for a Raspberry Pi 3 Model B+ connected to a 1024x600 touchscreen, although you can probably run *most* of it (see [Features](#Features)) on any device with similar or higher specs and Python 3.7 or later.
 
 ### Legal notice
-This is NOT an official app from AEMET. AEMET, as owner of the reused information, does NOT participate, sponsor or support the reuse that is carried out with this app or the app itself. The forecast data displayed within this app should always be the latest available.
+This is NOT an official app from AEMET. AEMET, as owner of the reused information, does NOT participate, sponsor or support the reuse that is carried out with this app or the app itself. The forecast data displayed by this app is supossed to always be the latest available.
 
 ### Features 
 ![Demo](demo.gif)
