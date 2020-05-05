@@ -19,7 +19,7 @@
 # stdlib
 import datetime
 import time
-import socket import timeout
+from socket import timeout
 import sys
 
 # pip installed
