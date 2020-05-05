@@ -5,7 +5,7 @@ Pi Weather Hub is a Python GUI Application made to display weather data from Spa
 This app is designed for a Raspberry Pi 3 Model B+ connected to a 1024x600 touchscreen, although you can probably run *most* of it (see [Features](#Features)) on any device with similar or higher specs and Python 3.7 or later.
 
 ### Legal notice
-This is NOT an official app from AEMET. AEMET, as owner of the reused information, does NOT participate, sponsor or support the reuse that is carried out with this app or the app itself. The forecast data displayed within this app should always be the latest available.
+This is NOT an official app from AEMET. AEMET, as owner of the reused information, does NOT participate, sponsor or support the reuse that is carried out with this app or the app itself. The forecast data displayed by this app is supossed to always be the latest available.
 
 ### Features 
 ![Demo](demo.gif)
@@ -17,7 +17,7 @@ This app is divided into three different tabs:
   * **Interior:** An [Adafruit Sensirion SHT31-D](https://www.adafruit.com/product/2857) sensor attached to the Raspberry Pi.
   * **Exterior:** A Google spreadsheet where data is posted periodically by a weather station I made some time ago.
 
-As the measurements functions probably are not especially useful to most people, they can easily be disabled (see [Installation](#Installation)).
+As the measurements functions are probably not especially useful to most people, they can be easily disabled (see [Installation](#Installation)).
 
 ## Prerequisites
 ### Forecast functionality (required)
@@ -58,7 +58,7 @@ Clone the repository with git (or click the *Download ZIP* button on this page a
 ```
 git clone https://github.com/frios94/Pi-Weather-Hub.git
 ```
-In you want a forecast only installation, edit the following line on [`main.py`](pi_weather_hub/main.py):
+If you want a forecast only installation, edit the following line on [`main.py`](pi_weather_hub/main.py):
 ```
 MEASUREMENTS_INTEGRATION_ACTIVATED = True
 ```
@@ -73,7 +73,7 @@ Additionally, unless you live at Málaga, you probably want to change theses val
 MUNICIPIO_ID = "29067"
 RADAR_ID = "ml"
 ```
-You can find more information about them in [AEMET OpenData documentation](https://opendata.aemet.es/dist/index.html).
+You can find more information about them in [AEMET OpenData's documentation](https://opendata.aemet.es/dist/index.html).
 
 Finally, if your screen has a bigger resolution than 1024x600, the GUI will scalate very poorly, so I would recommend disabling full-screen. To do that, replace this line of `interface.py`:
 ```
