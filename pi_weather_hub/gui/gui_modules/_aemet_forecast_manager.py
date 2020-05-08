@@ -115,7 +115,9 @@ class _AemetForecastManager():
             today_data = [
                 raw_forecast['prediccion']['dia'][self._current_day_index]
                 ['estadoCielo'][self._current_period_index]['value'],
-                self._get_weekday_label(0, 'today'),
+                self._get_weekday_label(
+                    raw_forecast['prediccion']['dia'][self._current_day_index]["fecha"],
+                    'today'),
                 str(raw_forecast['prediccion']['dia'][self._current_day_index]
                     ['temperatura']['minima']) + "°",
                 str(raw_forecast['prediccion']['dia'][self._current_day_index]
@@ -148,7 +150,9 @@ class _AemetForecastManager():
                 temp_data = [
                     raw_forecast['prediccion']['dia'][self._current_day_index + i]
                     ['estadoCielo'][0]['value'],
-                    self._get_weekday_label(i, 'day'),
+                    self._get_weekday_label(
+                        raw_forecast['prediccion']['dia'][self._current_day_index + i]["fecha"],
+                        'day'),
                     str(raw_forecast['prediccion']['dia'][self._current_day_index + i]
                         ['temperatura']['minima']) + "°",
                     str(raw_forecast['prediccion']['dia'][self._current_day_index + i]
@@ -199,7 +203,8 @@ class _AemetForecastManager():
                     temp_data = [
                         raw_forecast['prediccion']['dia'][day]
                         ['estadoCielo'][hour]['value'],
-                        self._get_weekday_label(day, 'hour'),
+                        self._get_weekday_label(
+                            raw_forecast['prediccion']['dia'][day]["fecha"], 'hour'),
                         raw_forecast['prediccion']['dia'][day]
                         ['estadoCielo'][hour]['periodo'],
                         raw_forecast['prediccion']['dia'][day]
@@ -368,12 +373,13 @@ class _AemetForecastManager():
             self._current_hour_index = index
         return updated
 
-    def _get_weekday_label(self, delta, mode):
+    def _get_weekday_label(self, day, mode):
         # Get the appropriate label and format it according to the place
         # where it's going to be displayed in the GUI.
-        day = (datetime.datetime.today() + datetime.timedelta(days=delta)).day
-        weekday_index = (datetime.datetime.today() + datetime.timedelta(days=delta)).weekday()
-        month_index = (datetime.datetime.today() + datetime.timedelta(days=delta)).month
+        date = datetime.datetime.fromisoformat(day)
+        day = date.day
+        weekday_index = date.weekday()
+        month_index = date.month
 
         weekday = {
             0: "lunes",
