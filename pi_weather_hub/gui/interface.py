@@ -176,7 +176,8 @@ class Ui(QtWidgets.QMainWindow):
                     QtCore.QTimer.singleShot(500, loop.quit)
                     loop.exec_()
 
-                if iterations >= 5:
+                if ((iterations >= 5) or (self.tabWidget.currentIndex() != 1)) \
+                        and (self.radar_state == "animated"):
                     self.b_current.toggle()
                     self.b_animation.toggle()
                     self.radar_state = "current"
