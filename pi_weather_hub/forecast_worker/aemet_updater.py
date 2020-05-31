@@ -153,7 +153,7 @@ class AemetUpdater():
                     output = None
             else:
                 output = None
-        except (requests.exceptions.ConnectionError) as e:
+        except (requests.exceptions.ConnectionError, KeyError) as e:
             print(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S - "), end='', flush=True)
             print(e, file=sys.stderr, flush=True)
             output = None
