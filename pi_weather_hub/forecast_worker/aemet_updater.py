@@ -115,9 +115,11 @@ class AemetUpdater():
                 "https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/horaria/"
                 + MUNICIPIO_ID)
 
-            if (temp_daily is not None) or (temp_hourly is not None):
+            if (temp_daily is not None):
                 self.forecast['daily'] = temp_daily.json()[0]
+            if (temp_hourly is not None):
                 self.forecast['hourly'] = temp_hourly.json()[0]
+            if (temp_daily is not None) or (temp_hourly is not None):
                 self.forecast_ready.set()
 
     def _update_radar_files(self):

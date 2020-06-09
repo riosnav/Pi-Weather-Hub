@@ -20,6 +20,7 @@
 import datetime
 import time
 from socket import timeout, gaierror
+from requests.exceptions import ConnectionError
 import sys
 
 # pip installed
@@ -90,7 +91,7 @@ class SheetUpdater():
                     values = google_sheets_api_request(SPREADSHEET_ID, RANGE_NAME)
                     self._store_values(values)
                     self._process_stadistics()
-                except (ServerNotFoundError, HttpError, timeout, gaierror) as e:
+                except (ServerNotFoundError, HttpError, timeout, gaierror, ConnectionError) as e:
                     print(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S - "),
                           end='', flush=True)
                     print(e, file=sys.stderr, flush=True)
