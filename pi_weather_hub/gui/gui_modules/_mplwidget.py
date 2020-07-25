@@ -22,21 +22,23 @@
 
 # pip
 import matplotlib as mpl
+import matplotlib.backends.backend_qt5agg as mpl_backend_qt5agg
+import matplotlib.figure as mpl_figure
 from PyQt5 import QtWidgets
 
 # AGG renderer with QT5 user interface
 mpl.use('QT5Agg')
 
-class MplCanvas(mpl.backends.backend_qt5agg.FigureCanvasQTAgg):
+class MplCanvas(mpl_backend_qt5agg.FigureCanvasQTAgg):
     """Matplotlib QT canvas"""
     def __init__(self):
-        self.fig = mpl.figure.Figure()
+        self.fig = mpl_figure.Figure()
         self.ax = self.fig.add_subplot(111)
         
-        mpl.backends.backend_qt5agg.FigureCanvasQTAgg.__init__(self, self.fig)
-        mpl.backends.backend_qt5agg.FigureCanvasQTAgg.setSizePolicy(
+        mpl_backend_qt5agg.FigureCanvasQTAgg.__init__(self, self.fig)
+        mpl_backend_qt5agg.FigureCanvasQTAgg.setSizePolicy(
             self, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        mpl.backends.backend_qt5agg.FigureCanvasQTAgg.updateGeometry(self)
+        mpl_backend_qt5agg.FigureCanvasQTAgg.updateGeometry(self)
 
 class MplWidget(QtWidgets.QWidget):
     """Matplotlib Widget"""
