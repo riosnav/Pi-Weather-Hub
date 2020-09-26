@@ -95,7 +95,6 @@ class SheetUpdater():
                     print(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S - "),
                           end='', flush=True)
                     print(e, file=sys.stderr, flush=True)
-                    pass
                 self.sheet_ready.set()
             time.sleep(UPDATE_PERIOD)
 
