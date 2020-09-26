@@ -145,10 +145,10 @@ class AemetUpdater():
             'cache-control': "no-cache"
         }
         try:
-            response = requests.get(url, headers=headers, params=querystring, verify=False)
+            response = requests.get(url, headers=headers, params=querystring)
             if response.status_code == 200:
                 response_dict = response.json()
-                data = requests.get(response_dict['datos'], headers=headers, params=querystring, verify=False)
+                data = requests.get(response_dict['datos'], headers=headers, params=querystring)
                 if data.status_code == 200:
                     output = data
                 else:
