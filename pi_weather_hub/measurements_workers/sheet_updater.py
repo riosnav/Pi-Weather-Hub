@@ -24,8 +24,9 @@ from requests.exceptions import ConnectionError
 import sys
 
 # pip installed
-from httplib2 import ServerNotFoundError
-from googleapiclient.errors import HttpError
+from httplib2 import HttpLib2Error
+from googleapiclient.errors import Error
+from google.auth.exceptions import GoogleAuthError
 import numpy as np
 
 # app modules
@@ -91,7 +92,7 @@ class SheetUpdater():
                     values = google_sheets_api_request(SPREADSHEET_ID, RANGE_NAME)
                     self._store_values(values)
                     self._process_stadistics()
-                except (ServerNotFoundError, HttpError, timeout, gaierror, ConnectionError) as e:
+                except (timeout, gaierror, HttpLib2Error, Error, GoogleAuthError) as e:
                     print(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S - "),
                           end='', flush=True)
                     print(e, file=sys.stderr, flush=True)
