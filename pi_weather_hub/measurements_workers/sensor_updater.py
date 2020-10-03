@@ -86,7 +86,7 @@ class SensorUpdater():
             if time.time() > last_plot_update + PLOT_UPDATE_PERIOD:
                 last_plot_update = time.time()
                 previous_sensor_data = self._read_csv(CSV_PATH)
-                current_reading = self._read_sensor()
+                current_reading = self._read_sensor(previous_sensor_data)
                 sensor_data = self._combine_and_filter_data(current_reading, previous_sensor_data)
                 self._save_data_to_csv(CSV_PATH, sensor_data)
 
@@ -99,7 +99,7 @@ class SensorUpdater():
                     self._process_stadistics()
                     self.sensor_ready.set()
             else:
-                sensor_reading = self._read_sensor()
+                sensor_reading = self._read_sensor(previous_sensor_data)
                 with self.sensor_lock:
                     self.sensor_stadistics['Current temperature'] = sensor_reading[1]
                     self.sensor_stadistics['Current humidity'] = sensor_reading[2]
@@ -120,14 +120,17 @@ class SensorUpdater():
             writer = csv.writer(f)
             writer.writerows(data)
 
-    def _read_sensor(self):
-        i2c = busio.I2C(board.SCL, board.SDA)
-        sensor = adafruit_sht31d.SHT31D(i2c)
+    def _read_sensor(self, previous_sensor_data):
+        try:
+            i2c = busio.I2C(board.SCL, board.SDA)
+            sensor = adafruit_sht31d.SHT31D(i2c)
 
-        current_time = datetime.datetime.now().replace(microsecond=0).isoformat()
-        current_temp = round(sensor.temperature, 1)
-        current_hum = round(sensor.relative_humidity, 1)
-        return [current_time, current_temp, current_hum]
+            current_time = datetime.datetime.now().replace(microsecond=0).isoformat()
+            current_temp = round(sensor.temperature, 1)
+            current_hum = round(sensor.relative_humidity, 1)
+            return [current_time, current_temp, current_hum]
+        except RuntimeError:
+            return previous_sensor_data
 
     def _combine_and_filter_data(self, current_reading, previous_sensor_data):
         # Add the new reading at the top of the previous list. All
