@@ -407,7 +407,7 @@ class _AemetForecastManager():
         }[month_index]
 
         if mode == 'today':
-            label = weekday + ", " + str(day) + str(month)
+            label = weekday + ", " + str(day) + " " + str(month)
         elif mode == 'hour':
             label = weekday[0:3] + "."
         else:
