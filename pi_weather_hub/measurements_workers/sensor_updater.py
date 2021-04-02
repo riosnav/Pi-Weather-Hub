@@ -20,6 +20,7 @@
 import csv
 import datetime
 import time
+import sys
 
 # pip
 import board
