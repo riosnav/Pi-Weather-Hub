@@ -130,7 +130,7 @@ class SensorUpdater():
             current_temp = round(sensor.temperature, 1)
             current_hum = round(sensor.relative_humidity, 1)
             return [current_time, current_temp, current_hum]
-        except (RuntimeError, ValueError) as e:
+        except (RuntimeError, ValueError, OSError) as e:
             print(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S - "), end='', flush=True)
             print(e, file=sys.stderr, flush=True)
             return previous_sensor_data
