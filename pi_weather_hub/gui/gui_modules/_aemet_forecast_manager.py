@@ -230,7 +230,7 @@ class _AemetForecastManager():
                         raw_forecast['prediccion']['dia'][day]
                         ['vientoAndRachaMax'][2 * hour]['velocidad'][0],
                         raw_forecast['prediccion']['dia'][day]
-                        ['precipitacion'][hour]['value']
+                        ['precipitacion'][hour+offset]['value']
                     ]
                     # If 'expected precipitation' is 0, do not show
                     # anything.
