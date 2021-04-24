@@ -115,7 +115,7 @@ class _AemetForecastManager():
             try:
                 uvMAX = raw_forecast['prediccion']['dia'][self._current_day_index]['uvMax']
             except KeyError:
-                uvMAX = ''
+                uvMAX = 'ND'
 
             today_data = [
                 raw_forecast['prediccion']['dia'][self._current_day_index]
