@@ -112,6 +112,11 @@ class _AemetForecastManager():
             # [icon, day label, min. temp., max. temp., wind direction, wind speed,
             #   chance of precipitation, current weather, min. thermal sensation,
             #   max. thermal sensation, uvMax, min. relative humidity, max. relative humidity]
+            try:
+                uvMAX = raw_forecast['prediccion']['dia'][self._current_day_index]['uvMax']
+            except KeyError:
+                uvMAX = ''
+
             today_data = [
                 raw_forecast['prediccion']['dia'][self._current_day_index]
                 ['estadoCielo'][self._current_period_index]['value'],
@@ -135,7 +140,7 @@ class _AemetForecastManager():
                     ['sensTermica']['minima']) + "°/"
                 + str(raw_forecast['prediccion']['dia'][self._current_day_index]
                       ['sensTermica']['maxima']) + "°",
-                raw_forecast['prediccion']['dia'][self._current_day_index]['uvMax'],
+                uvMAX,
                 str(raw_forecast['prediccion']['dia'][self._current_day_index]
                     ['humedadRelativa']['minima']) + "%/"
                 + str(raw_forecast['prediccion']['dia'][self._current_day_index]
@@ -199,14 +204,22 @@ class _AemetForecastManager():
             # [[icon, day label, hour label, temperature, humidity,
             # wind direction, wind speed, expected precipitation],...]
             for day in range(0, len(raw_forecast['prediccion']['dia'])):
-                for hour in range(0, len(raw_forecast['prediccion']['dia'][day]['estadoCielo'])):
+                if len(raw_forecast['prediccion']['dia'][day]['estadoCielo']) > len(raw_forecast['prediccion']['dia'][day]['temperatura']):
+                    end_index = len(raw_forecast['prediccion']['dia'][day]['temperatura'])
+                    offset = 1
+                else:
+                    end_index = len(raw_forecast['prediccion']['dia'][day]['estadoCielo'])
+                    offset = 0
+
+
+                for hour in range(0, end_index):
                     temp_data = [
                         raw_forecast['prediccion']['dia'][day]
-                        ['estadoCielo'][hour]['value'],
+                        ['estadoCielo'][hour+offset]['value'],
                         self._get_weekday_label(
                             raw_forecast['prediccion']['dia'][day]["fecha"], 'hour'),
                         raw_forecast['prediccion']['dia'][day]
-                        ['estadoCielo'][hour]['periodo'],
+                        ['estadoCielo'][hour+offset]['periodo'],
                         raw_forecast['prediccion']['dia'][day]
                         ['temperatura'][hour]['value'] + "°",
                         raw_forecast['prediccion']['dia'][day]
