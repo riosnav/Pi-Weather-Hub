@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 # main.py
 # Copyright (C) 2020  Francisco de los Ríos Navarrete
 #

@@ -133,7 +133,7 @@ class SensorUpdater():
         except (RuntimeError, ValueError, OSError) as e:
             print(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S - "), end='', flush=True)
             print(e, file=sys.stderr, flush=True)
-            return previous_sensor_data
+            return [current_time, np.float64(previous_sensor_data[0][1]), np.float64(previous_sensor_data[0][2])]
 
     def _combine_and_filter_data(self, current_reading, previous_sensor_data):
         # Add the new reading at the top of the previous list. All
