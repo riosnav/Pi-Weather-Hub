@@ -33,8 +33,6 @@ import numpy as np
 from measurements_workers.measurements_modules.google_sheets_api_request import google_sheets_api_request
 from measurements_workers._spreadsheet_id import SPREADSHEET_ID, RANGE_NAME
 
-SPREADSHEET_ID = "1rAtGo0rC1WpK227XKsNmNyOnRssKjW2a5ER7zkIy2vg"
-RANGE_NAME = "Procesamiento!A2:D"
 UPDATE_PERIOD = 5*60
 
 class SheetUpdater():
