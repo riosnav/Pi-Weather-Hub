@@ -33,6 +33,8 @@ Then use the package manager [pip](https://pip.pypa.io/en/stable/) to install th
 pip3 install numpy matplotlib
 pip3 install requests
 ```
+To install system-wide (this may be required in some cases) add ```sudo``` to previous commands.
+
 You will need an API Key for AEMET's API. To obtain it, visit [AEMET OpenData](https://opendata.aemet.es)'s website, select *Solicitar* on *Obtención de API Key* an enter your email.
 
 ### Measurements functionality (optional)
@@ -100,6 +102,11 @@ To run this app execute the [`main.py`](pi_weather_hub/main.py) script using Pyt
 python3 main.py
 ```
 To close it quickly tap the Forecast tab 5 times.
+
+If you want this app to run automatically at startup create the following crontab file:
+```
+@reboot XAUTHORITY=/home/USERNAME/.Xauthority DISPLAY=:0 /usr/bin/python3 /home/USERNAME/Pi-Weather-Hub/pi_weather_hub/main.py > /home/USERNAME/Pi-Weather-Hub/console_output.log 2>&1
+```
 
 ## Contributing
 This is a quite specific and personal project and I don't think there are many people out there in need of this app as is, but I'm distributing it in the hope that it will be useful to someone.
