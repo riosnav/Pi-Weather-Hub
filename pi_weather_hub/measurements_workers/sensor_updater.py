@@ -125,11 +125,10 @@ class SensorUpdater():
         try:
             i2c = busio.I2C(board.SCL, board.SDA)
             sensor = adafruit_sht31d.SHT31D(i2c)
-            i2c.deinit()
-
             current_time = datetime.datetime.now().replace(microsecond=0).isoformat()
             current_temp = round(sensor.temperature, 1)
             current_hum = round(sensor.relative_humidity, 1)
+            i2c.deinit()
             return [current_time, current_temp, current_hum]
         except (RuntimeError, ValueError, OSError) as e:
             print(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S - "), end='', flush=True)
