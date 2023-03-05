@@ -105,7 +105,7 @@ To close it quickly tap the Forecast tab 5 times.
 
 If you want this app to run automatically at startup create the following crontab file:
 ```
-@reboot XAUTHORITY=/home/USERNAME/.Xauthority DISPLAY=:0 /usr/bin/python3 /home/USERNAME/Pi-Weather-Hub/pi_weather_hub/main.py > /home/USERNAME/Pi-Weather-Hub/console_output.log 2>&1
+@reboot XAUTHORITY=/home/USERNAME/.Xauthority DISPLAY=:0 /usr/bin/python3 /home/USERNAME/Pi-Weather-Hub/pi_weather_hub/main.py >> /home/USERNAME/Pi-Weather-Hub/console_output.log 2>&1
 ```
 
 ## Contributing
