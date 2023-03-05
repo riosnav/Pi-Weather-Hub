@@ -125,6 +125,7 @@ class SensorUpdater():
         try:
             i2c = busio.I2C(board.SCL, board.SDA)
             sensor = adafruit_sht31d.SHT31D(i2c)
+            i2c.deinit()
 
             current_time = datetime.datetime.now().replace(microsecond=0).isoformat()
             current_temp = round(sensor.temperature, 1)
