@@ -68,9 +68,9 @@ def setup_temperature_plot(temperature_graph, timestamps, temperatures,
     temperature_graph.canvas.ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(0.25))
 
     temperature_graph.canvas.ax.grid(
-        b=True, which='major', color='#666666', linestyle='-', alpha=0.5)
+        visible=True, which='major', color='#666666', linestyle='-', alpha=0.5)
     temperature_graph.canvas.ax.grid(
-        b=True, which='minor', color='#999999', linestyle='-', alpha=0.2)
+        visible=True, which='minor', color='#999999', linestyle='-', alpha=0.2)
 
     temperature_graph.canvas.ax.margins(0, 0.05)
     temperature_graph.canvas.fig.canvas.fig.subplots_adjust(
@@ -112,9 +112,9 @@ def setup_humidity_plot(humidity_graph, timestamps, humidities,
     humidity_graph.canvas.ax.yaxis.set_minor_locator(mpl.ticker.MultipleLocator(2.5))
 
     humidity_graph.canvas.ax.grid(
-        b=True, which='major', color='#666666', linestyle='-', alpha=0.5)
+        visible=True, which='major', color='#666666', linestyle='-', alpha=0.5)
     humidity_graph.canvas.ax.grid(
-        b=True, which='minor', color='#999999', linestyle='-', alpha=0.2)
+        visible=True, which='minor', color='#999999', linestyle='-', alpha=0.2)
 
     humidity_graph.canvas.ax.margins(0, 0.05)
     humidity_graph.canvas.fig.subplots_adjust(
@@ -154,9 +154,9 @@ def setup_pressure_plot(pressure_graph, timestamps, pressures):
     pressure_graph.canvas.ax.axhline(1013.25, color='b')  # 1 atm
 
     pressure_graph.canvas.ax.grid(
-        b=True, which='major', color='#666666', linestyle='-', alpha=0.5)
+        visible=True, which='major', color='#666666', linestyle='-', alpha=0.5)
     pressure_graph.canvas.ax.grid(
-        b=True, which='minor', color='#999999', linestyle='-', alpha=0.2)
+        visible=True, which='minor', color='#999999', linestyle='-', alpha=0.2)
 
     pressure_graph.canvas.ax.margins(0, 0.05)
     pressure_graph.canvas.fig.canvas.fig.subplots_adjust(
