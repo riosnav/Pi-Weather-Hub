@@ -1,0 +1,18 @@
+[Unit]
+Description=Start Pi Weather Hub
+After=graphical.target
+
+[Service]
+Environment="WAYLAND_DISPLAY=wayland-0"
+Environment="QT_QPA_PLATFORM=wayland"
+Environment="XDG_RUNTIME_DIR=/run/user/1000"
+WorkingDirectory=/home/pi/Pi-Weather-Hub
+ExecStart=/home/pi/Pi-Weather-Hub/.env/bin/python3 /home/pi/Pi-Weather-Hub/pi_weather_hub/main.py
+StandardOutput=append:/home/pi/Pi-Weather-Hub/console_output.log
+StandardError=append:/home/pi/Pi-Weather-Hub/console_output.log
+Restart=no
+User=pi
+Group=pi
+
+[Install]
+WantedBy=graphical.target

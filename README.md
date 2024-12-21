@@ -2,7 +2,7 @@
 
 Pi Weather Hub is a Python GUI Application made to display weather data from Spain's State Meteorological Agency [AEMET](https://www.aemet.es), as well as temperature, humidity and pressure measurements from a special Google spreadsheet and a SHT31-D sensor.
 
-This app is designed for a Raspberry Pi 3 Model B+ connected to a 1024x600 touchscreen, although you can probably run *most* of it (see [Features](#Features)) on any device with similar or higher specs and Python 3.7 or later.
+This app is designed for a Raspberry Pi 3 Model B+ connected to a [1024x600 touchscreen](https://www.waveshare.com/wiki/7inch_HDMI_LCD_(C)), although you can probably run *most* of it (see [Features](#Features)) on any device with similar or higher specs and Python 3.7 or later. This version has been tested on Raspberry Pi OS 64-bit 6.6.
 
 ### Legal notice
 This is NOT an official app from AEMET. AEMET, as owner of the reused information, does NOT participate, sponsor or support the reuse that is carried out with this app or the app itself. The forecast data displayed by this app is supossed to always be the latest available.
@@ -27,13 +27,16 @@ First, we need to install [PyQt5](https://www.riverbankcomputing.com/software/py
 sudo apt-get install python3-pyqt5
 ```
 
-Then use the package manager [pip](https://pip.pypa.io/en/stable/) to install the following packages:
+Newer versions of Raspberry Pi OS basically force you to use a virtual environment to install pip packages, so create and activate one as follows:
+```bash
+python -m venv --system-site-packages .env
+source .env/bin/activate
+```
+We need the `--system-site-packages` flag to use PyQt5 within the virtual environment. Now use the package manager [pip](https://pip.pypa.io/en/stable/) to install the following packages:
 
 ```bash
-pip3 install numpy matplotlib
-pip3 install requests
+pip install numpy matplotlib requests
 ```
-To install system-wide (this may be required in some cases) add ```sudo``` to previous commands.
 
 You will need an API Key for AEMET's API. To obtain it, visit [AEMET OpenData](https://opendata.aemet.es)'s website, select *Solicitar* on *Obtención de API Key* an enter your email.
 
@@ -50,39 +53,42 @@ In order to use Google's API to fetch data from it, first you will need to enabl
 
 Then run the following command to install the library using pip:
 ```bash
-pip3 install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
 ```
 #### SHT31-D sensor integration
-Carefully follow [Adafruit's tutorial](https://learn.adafruit.com/adafruit-sht31-d-temperature-and-humidity-sensor-breakout/python-circuitpython#python-installation-of-sht31d-library-5-6) on how to install the sensor and the necessary libraries.
+Carefully follow [Adafruit's tutorial](https://learn.adafruit.com/adafruit-sht31-d-temperature-and-humidity-sensor-breakout/python-circuitpython#python-installation-of-sht31d-library-5-6) on how to install the sensor and the necessary libraries, that is:
+```bash
+pip install Adafruit-Blinka adafruit-circuitpython-sht31d
+```
 
 ## Installation
 Clone the repository with git (or click the *Download ZIP* button on this page and unpack it):
-```
+```bash
 git clone https://github.com/frios94/Pi-Weather-Hub.git
 ```
 If you want a forecast only installation, edit the following line on [`main.py`](pi_weather_hub/main.py):
-```
+```python
 MEASUREMENTS_INTEGRATION_ACTIVATED = True
 ```
 Changing its value to `False`. Otherwise leave it as is.
 ### Forecast functionality (required)
 Create a Python file inside [`pi_weather_hub/forecast_worker`](pi_weather_hub/forecast_worker) named `_aemet_api_key.py`. Open it, add this line with the appropriate value and save it:
-```
+```python
 AEMET_API_KEY = "YOUR_API_KEY_GOES_HERE"
 ```
 Additionally, unless you live at Málaga, you probably want to change theses values in `aemet_updater.py`:
-```
+```python
 MUNICIPIO_ID = "29067"
 RADAR_ID = "ml"
 ```
 You can find more information about them in [AEMET OpenData's documentation](https://opendata.aemet.es/dist/index.html).
 
 Finally, if your screen has a bigger resolution than 1024x600, the GUI will scalate very poorly, so I would recommend disabling full-screen. To do that, replace this line of `interface.py`:
-```
+```python
         self.showFullScreen()
 ```
 with:
-```
+```python
         self.show()
 ```
 
@@ -90,7 +96,7 @@ with:
 Create a directory called `measurements_resources` in [`pi_weather_hub/measurements_workers`](pi_weather_hub/measurements_workers) and paste your `credentials.json` files inside.
 
 Next, create a Python file inside [`pi_weather_hub/measurements_workers`](pi_weather_hub/measurements_workers) named `_spreadsheet_id.py`. Open it, add these lines with the appropriate values and save it:
-```
+```python
 SPREADSHEET_ID = "YOUR_GOOGLE_SPREADSHEET_ID_GOES_HERE"
 RANGE_NAME = "EXAMPLE!A2:D"
 ```
@@ -98,14 +104,27 @@ The first time you run this program, it will open a tab in your web browser so y
 
 ## Usage
 To run this app execute the [`main.py`](pi_weather_hub/main.py) script using Python3:
-```
-python3 main.py
+```bash
+python main.py
 ```
 To close it quickly tap the Forecast tab 5 times.
 
-If you want this app to run automatically at startup create the following crontab file:
+If you want this app to run automatically at startup, first open the Systemd Service file [`pi-weather-hub.service`](pi-weather-hub.service) and modify it accordingly to your directories and username. Then, copy it to `/etc/systemd/system/` and run the following command to enable the service:
+```bash
+sudo systemctl enable pi-weather-hub.service
 ```
-@reboot XAUTHORITY=/home/USERNAME/.Xauthority DISPLAY=:0 /usr/bin/python3 /home/USERNAME/Pi-Weather-Hub/pi_weather_hub/main.py >> /home/USERNAME/Pi-Weather-Hub/console_output.log 2>&1
+And start it for testing:
+```bash
+sudo systemctl start pi-weather-hub.service
+```
+You can check its status with:
+```bash
+journalctl -u pi-weather-hub.service
+```
+If you make any changes to the service after enabling it, run the following commands to restart it:
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart pi-weather-hub.service
 ```
 
 ## Contributing
